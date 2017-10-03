@@ -1,0 +1,6 @@
+package: github.com/bculberson/kafka-relay
+import:
+- package: github.com/Shopify/sarama
+  version: ^1.12.0
+- package: github.com/bsm/sarama-cluster
+  version: ^2.1.8
