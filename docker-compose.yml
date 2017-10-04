@@ -4,11 +4,9 @@ services:
 
   zk:
     image: wurstmeister/zookeeper
-    volumes:
-      - "./bin:/tmp/bin"
 
   kafka:
-    image: wurstmeister/kafka:0.11.0.0
+    image: wurstmeister/kafka
     expose:
       - 9092
     hostname: kafka
@@ -21,7 +19,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zk:2181
 
   relay:
-    image: golang:1.8
+    image: golang
     working_dir: "/opt/go/src/github.com/bculberson/kafka-relay"
     command: "go run main.go"
     links:
@@ -30,7 +28,9 @@ services:
       GOPATH: /opt/go/
       SOURCE: "kafka:9092"
       SOURCE_TOPIC: "source"
+      SOURCE_KEY_FIELD: "id"
       DESTINATION: "kafka:9092"
       DESTINATION_TOPIC: "destination"
+      DESTINATION_PARTITIONS: "1"
     volumes:
       - ".:/opt/go/src/github.com/bculberson/kafka-relay:rw"
